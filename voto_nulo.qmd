@@ -1,0 +1,62 @@
+---
+title: "Elecciones Generales de Bolivia de 2025"
+subtitle: "El voto nulo promovido por Evo Morales en el norte de Potosí"
+author: 
+  name: "Philippe Decker"
+  email: "decker.philippe@pm.me"
+date: today 
+date-format: "short"
+format: html
+editor: visual
+
+execute:
+  warning: false
+  message: false
+
+title-block-banner: "#F9E40B"
+title-block-banner-color: "#D73225"
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(readr)
+library(tidyverse)
+library(dplyr)
+```
+
+El archivo refleja los resultados procesados a la siguiente fecha y hora: 24/8/2025, 7:56:19 p. m.
+
+```{r, warning=FALSE, message=FALSE}
+resultados_bol25 <- read_csv("input/EG2025_20250824_235619_5976286028509320003.csv")
+```
+
+```{r}
+#| echo: false
+spec(resultados_bol25)
+```
+
+Filtro las circunscripciones 38 y 39 del norte del departamento de Potosí y calculo el porcentaje del voto nulo en cada mesa. Me quedo con las mesas dónde más o igual a 50 porciento de los electores marcaron "voto nulo", 242 mesas de un total de 639 en esas dos circunscripciones (o en 37% de esas mesas).
+
+```{r}
+resultados_potosi <- resultados_bol25 %>%
+  filter(CodigoCircunscripcionU %in% c(38, 39)) %>% 
+  filter(Descripcion == "PRESIDENTE") %>% 
+  mutate(PorcentajeNulo = round((TotalVotoNulo / VotoEmitidoReal) * 100,0)) %>% 
+  filter(PorcentajeNulo >= 50) %>% 
+  arrange(desc(PorcentajeNulo))
+```
+
+Visualizo las localidades de las diferentes mesas de mayor a menor porcentaje de "votos nulos"
+
+```{r}
+votoNulo_mas50_localidad <- resultados_potosi %>% 
+  select(
+    CodigoCircunscripcionU,
+    NombreProvincia,
+    NombreMunicipio,
+    NombreLocalidad,
+    NombreRecinto,
+    InscritosHabilitados,
+    PorcentajeNulo
+  )
+  
+```
