@@ -63,6 +63,7 @@ votoNulo_mas50_localidad <- resultados_potosi %>%
     NombreLocalidad,
     NombreRecinto,
     InscritosHabilitados,
+    VotoEmitidoReal,
     PorcentajeNulo
   )
   
