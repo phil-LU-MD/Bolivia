@@ -43,7 +43,9 @@ resultados_potosi <- resultados_bol25 %>%
   filter(Descripcion == "PRESIDENTE") %>% 
   mutate(PorcentajeNulo = round((TotalVotoNulo / VotoEmitidoReal) * 100,0)) %>% 
   filter(PorcentajeNulo >= 50) %>% 
-  arrange(desc(PorcentajeNulo))
+  arrange(desc(PorcentajeNulo)) %>% 
+  mutate(Clasificacion = row_number()) %>% 
+  select(Clasificacion, everything())  # Move Clasificacion to the very left
 ```
 
 Visualizo las localidades de las diferentes mesas de mayor a menor porcentaje de "votos nulos"
@@ -54,6 +56,7 @@ Visualizo las localidades de las diferentes mesas de mayor a menor porcentaje de
 #| echo: true
 votoNulo_mas50_localidad <- resultados_potosi %>% 
   select(
+    Clasificacion,
     CodigoCircunscripcionU,
     NombreProvincia,
     NombreMunicipio,

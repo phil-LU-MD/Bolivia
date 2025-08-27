@@ -145,7 +145,9 @@ background: #F9E40B;
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Descripcion <span class="sc">==</span> <span class="st">"PRESIDENTE"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PorcentajeNulo =</span> <span class="fu">round</span>((TotalVotoNulo <span class="sc">/</span> VotoEmitidoReal) <span class="sc">*</span> <span class="dv">100</span>,<span class="dv">0</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PorcentajeNulo <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PorcentajeNulo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PorcentajeNulo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Clasificacion =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Clasificacion, <span class="fu">everything</span>())  <span class="co"># Move Clasificacion to the very left</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Visualizo las localidades de las diferentes mesas de mayor a menor porcentaje de “votos nulos”</p>
 <div class="cell">
@@ -153,14 +155,15 @@ background: #F9E40B;
 <summary>Click to expand code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>votoNulo_mas50_localidad <span class="ot">&lt;-</span> resultados_potosi <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    CodigoCircunscripcionU,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    NombreProvincia,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    NombreMunicipio,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    NombreLocalidad,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    NombreRecinto,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    InscritosHabilitados,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    PorcentajeNulo</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    Clasificacion,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    CodigoCircunscripcionU,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    NombreProvincia,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    NombreMunicipio,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    NombreLocalidad,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    NombreRecinto,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    InscritosHabilitados,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    PorcentajeNulo</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
@@ -168,16 +171,18 @@ background: #F9E40B;
 <table class="caption-top table table-sm table-striped small">
 <caption>Mesas con un 50% o más de votos nulos (circunscripciones 38 y 39)</caption>
 <colgroup>
+<col style="width: 6%">
 <col style="width: 10%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 28%">
-<col style="width: 19%">
-<col style="width: 10%">
-<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 26%">
+<col style="width: 17%">
+<col style="width: 9%">
+<col style="width: 6%">
 </colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: right;">Clasificacion</th>
 <th style="text-align: right;">CodigoCircunscripcionU</th>
 <th style="text-align: left;">NombreProvincia</th>
 <th style="text-align: left;">NombreMunicipio</th>
@@ -189,6 +194,7 @@ background: #F9E40B;
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -198,6 +204,7 @@ background: #F9E40B;
 <td style="text-align: right;">100</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -207,6 +214,7 @@ background: #F9E40B;
 <td style="text-align: right;">100</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -216,6 +224,7 @@ background: #F9E40B;
 <td style="text-align: right;">100</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -225,6 +234,7 @@ background: #F9E40B;
 <td style="text-align: right;">100</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">5</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -234,6 +244,7 @@ background: #F9E40B;
 <td style="text-align: right;">99</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -243,6 +254,7 @@ background: #F9E40B;
 <td style="text-align: right;">97</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -252,6 +264,7 @@ background: #F9E40B;
 <td style="text-align: right;">97</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -261,6 +274,7 @@ background: #F9E40B;
 <td style="text-align: right;">96</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -270,6 +284,7 @@ background: #F9E40B;
 <td style="text-align: right;">90</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">10</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -279,6 +294,7 @@ background: #F9E40B;
 <td style="text-align: right;">90</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">11</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -288,6 +304,7 @@ background: #F9E40B;
 <td style="text-align: right;">87</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">12</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -297,6 +314,7 @@ background: #F9E40B;
 <td style="text-align: right;">85</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">13</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -306,6 +324,7 @@ background: #F9E40B;
 <td style="text-align: right;">85</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">14</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -315,6 +334,7 @@ background: #F9E40B;
 <td style="text-align: right;">84</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">15</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -324,6 +344,7 @@ background: #F9E40B;
 <td style="text-align: right;">84</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">16</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -333,6 +354,7 @@ background: #F9E40B;
 <td style="text-align: right;">84</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">17</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -342,6 +364,7 @@ background: #F9E40B;
 <td style="text-align: right;">83</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">18</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -351,6 +374,7 @@ background: #F9E40B;
 <td style="text-align: right;">83</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">19</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -360,6 +384,7 @@ background: #F9E40B;
 <td style="text-align: right;">83</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">20</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -369,6 +394,7 @@ background: #F9E40B;
 <td style="text-align: right;">82</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">21</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -378,6 +404,7 @@ background: #F9E40B;
 <td style="text-align: right;">82</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">22</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -387,6 +414,7 @@ background: #F9E40B;
 <td style="text-align: right;">82</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">23</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -396,6 +424,7 @@ background: #F9E40B;
 <td style="text-align: right;">81</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">24</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -405,6 +434,7 @@ background: #F9E40B;
 <td style="text-align: right;">80</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">25</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -414,6 +444,7 @@ background: #F9E40B;
 <td style="text-align: right;">79</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">26</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -423,6 +454,7 @@ background: #F9E40B;
 <td style="text-align: right;">79</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">27</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -432,6 +464,7 @@ background: #F9E40B;
 <td style="text-align: right;">79</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">28</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -441,6 +474,7 @@ background: #F9E40B;
 <td style="text-align: right;">79</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">29</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -450,6 +484,7 @@ background: #F9E40B;
 <td style="text-align: right;">79</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">30</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -459,6 +494,7 @@ background: #F9E40B;
 <td style="text-align: right;">78</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">31</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -468,6 +504,7 @@ background: #F9E40B;
 <td style="text-align: right;">78</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">32</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -477,6 +514,7 @@ background: #F9E40B;
 <td style="text-align: right;">77</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">33</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -486,6 +524,7 @@ background: #F9E40B;
 <td style="text-align: right;">76</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">34</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -495,6 +534,7 @@ background: #F9E40B;
 <td style="text-align: right;">76</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">35</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -504,6 +544,7 @@ background: #F9E40B;
 <td style="text-align: right;">76</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">36</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -513,6 +554,7 @@ background: #F9E40B;
 <td style="text-align: right;">75</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">37</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -522,6 +564,7 @@ background: #F9E40B;
 <td style="text-align: right;">75</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">38</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -531,6 +574,7 @@ background: #F9E40B;
 <td style="text-align: right;">75</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">39</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -540,6 +584,7 @@ background: #F9E40B;
 <td style="text-align: right;">75</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">40</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -549,6 +594,7 @@ background: #F9E40B;
 <td style="text-align: right;">75</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">41</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -558,6 +604,7 @@ background: #F9E40B;
 <td style="text-align: right;">74</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">42</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -567,6 +614,7 @@ background: #F9E40B;
 <td style="text-align: right;">74</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">43</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -576,6 +624,7 @@ background: #F9E40B;
 <td style="text-align: right;">74</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">44</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -585,6 +634,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">45</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -594,6 +644,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">46</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -603,6 +654,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">47</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -612,6 +664,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">48</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -621,6 +674,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">49</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -630,6 +684,7 @@ background: #F9E40B;
 <td style="text-align: right;">73</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">50</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -639,6 +694,7 @@ background: #F9E40B;
 <td style="text-align: right;">72</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">51</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -648,6 +704,7 @@ background: #F9E40B;
 <td style="text-align: right;">72</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">52</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -657,6 +714,7 @@ background: #F9E40B;
 <td style="text-align: right;">72</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">53</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
@@ -666,6 +724,7 @@ background: #F9E40B;
 <td style="text-align: right;">72</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">54</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -675,6 +734,7 @@ background: #F9E40B;
 <td style="text-align: right;">71</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">55</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -684,6 +744,7 @@ background: #F9E40B;
 <td style="text-align: right;">71</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">56</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -693,6 +754,7 @@ background: #F9E40B;
 <td style="text-align: right;">71</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">57</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -702,6 +764,7 @@ background: #F9E40B;
 <td style="text-align: right;">71</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">58</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -711,6 +774,7 @@ background: #F9E40B;
 <td style="text-align: right;">71</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">59</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -720,6 +784,7 @@ background: #F9E40B;
 <td style="text-align: right;">70</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">60</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -729,6 +794,7 @@ background: #F9E40B;
 <td style="text-align: right;">70</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">61</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -738,6 +804,7 @@ background: #F9E40B;
 <td style="text-align: right;">70</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">62</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -747,6 +814,7 @@ background: #F9E40B;
 <td style="text-align: right;">70</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">63</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -756,6 +824,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">64</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -765,6 +834,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">65</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -774,6 +844,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">66</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -783,6 +854,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">67</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -792,6 +864,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">68</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -801,6 +874,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">69</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
@@ -810,6 +884,7 @@ background: #F9E40B;
 <td style="text-align: right;">69</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">70</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -819,6 +894,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">71</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -828,6 +904,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">72</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -837,6 +914,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">73</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -846,6 +924,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">74</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -855,6 +934,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">75</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -864,6 +944,7 @@ background: #F9E40B;
 <td style="text-align: right;">68</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">76</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -873,6 +954,7 @@ background: #F9E40B;
 <td style="text-align: right;">67</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">77</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -882,6 +964,7 @@ background: #F9E40B;
 <td style="text-align: right;">67</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">78</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -891,6 +974,7 @@ background: #F9E40B;
 <td style="text-align: right;">67</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">79</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -900,6 +984,7 @@ background: #F9E40B;
 <td style="text-align: right;">67</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">80</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -909,6 +994,7 @@ background: #F9E40B;
 <td style="text-align: right;">66</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">81</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -918,6 +1004,7 @@ background: #F9E40B;
 <td style="text-align: right;">66</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">82</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -927,6 +1014,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">83</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -936,6 +1024,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">84</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -945,6 +1034,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">85</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -954,6 +1044,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">86</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -963,6 +1054,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">87</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -972,6 +1064,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">88</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -981,6 +1074,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">89</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -990,6 +1084,7 @@ background: #F9E40B;
 <td style="text-align: right;">65</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">90</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -999,6 +1094,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">91</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1008,6 +1104,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">92</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -1017,6 +1114,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">93</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1026,6 +1124,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">94</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1035,6 +1134,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">95</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1044,6 +1144,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">96</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
@@ -1053,6 +1154,7 @@ background: #F9E40B;
 <td style="text-align: right;">64</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">97</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -1062,6 +1164,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">98</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1071,6 +1174,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">99</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1080,6 +1184,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">100</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1089,6 +1194,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">101</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1098,6 +1204,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">102</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1107,6 +1214,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">103</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1116,6 +1224,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">104</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -1125,6 +1234,7 @@ background: #F9E40B;
 <td style="text-align: right;">63</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">105</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1134,6 +1244,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">106</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1143,6 +1254,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">107</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -1152,6 +1264,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">108</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1161,6 +1274,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">109</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1170,6 +1284,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">110</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1179,6 +1294,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">111</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1188,6 +1304,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">112</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1197,6 +1314,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">113</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1206,6 +1324,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">114</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1215,6 +1334,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">115</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -1224,6 +1344,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">116</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1233,6 +1354,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">117</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -1242,6 +1364,7 @@ background: #F9E40B;
 <td style="text-align: right;">62</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">118</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1251,6 +1374,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">119</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1260,6 +1384,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">120</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1269,6 +1394,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">121</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1278,6 +1404,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">122</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1287,6 +1414,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">123</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1296,6 +1424,7 @@ background: #F9E40B;
 <td style="text-align: right;">61</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">124</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1305,6 +1434,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">125</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1314,6 +1444,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">126</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1323,6 +1454,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">127</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1332,6 +1464,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">128</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1341,6 +1474,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">129</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1350,6 +1484,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">130</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1359,6 +1494,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">131</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1368,6 +1504,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">132</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1377,6 +1514,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">133</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1386,6 +1524,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">134</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1395,6 +1534,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">135</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1404,6 +1544,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">136</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1413,6 +1554,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">137</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1422,6 +1564,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">138</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
@@ -1431,6 +1574,7 @@ background: #F9E40B;
 <td style="text-align: right;">60</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">139</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1440,6 +1584,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">140</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1449,6 +1594,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">141</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -1458,6 +1604,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">142</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -1467,6 +1614,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">143</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -1476,6 +1624,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">144</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1485,6 +1634,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">145</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1494,6 +1644,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">146</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -1503,6 +1654,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">147</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -1512,6 +1664,7 @@ background: #F9E40B;
 <td style="text-align: right;">59</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">148</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -1521,6 +1674,7 @@ background: #F9E40B;
 <td style="text-align: right;">58</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">149</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -1530,6 +1684,7 @@ background: #F9E40B;
 <td style="text-align: right;">58</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">150</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -1539,6 +1694,7 @@ background: #F9E40B;
 <td style="text-align: right;">58</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">151</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1548,6 +1704,7 @@ background: #F9E40B;
 <td style="text-align: right;">58</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">152</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1557,6 +1714,7 @@ background: #F9E40B;
 <td style="text-align: right;">58</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">153</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1566,6 +1724,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">154</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -1575,6 +1734,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">155</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -1584,6 +1744,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">156</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1593,6 +1754,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">157</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1602,6 +1764,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">158</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1611,6 +1774,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">159</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1620,6 +1784,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">160</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1629,6 +1794,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">161</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1638,6 +1804,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">162</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1647,6 +1814,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">163</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1656,6 +1824,7 @@ background: #F9E40B;
 <td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">164</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1665,6 +1834,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">165</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1674,6 +1844,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">166</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1683,6 +1854,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">167</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1692,6 +1864,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">168</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1701,6 +1874,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">169</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1710,6 +1884,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">170</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Arampampa</td>
@@ -1719,6 +1894,7 @@ background: #F9E40B;
 <td style="text-align: right;">56</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">171</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1728,6 +1904,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">172</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1737,6 +1914,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">173</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -1746,6 +1924,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">174</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1755,6 +1934,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">175</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1764,6 +1944,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">176</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1773,6 +1954,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">177</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1782,6 +1964,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">178</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1791,6 +1974,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">179</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1800,6 +1984,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">180</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -1809,6 +1994,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">181</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1818,6 +2004,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">182</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
@@ -1827,6 +2014,7 @@ background: #F9E40B;
 <td style="text-align: right;">55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">183</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1836,6 +2024,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">184</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1845,6 +2034,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">185</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1854,6 +2044,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">186</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1863,6 +2054,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">187</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1872,6 +2064,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">188</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -1881,6 +2074,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">189</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1890,6 +2084,7 @@ background: #F9E40B;
 <td style="text-align: right;">54</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">190</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -1899,6 +2094,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">191</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -1908,6 +2104,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">192</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1917,6 +2114,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">193</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -1926,6 +2124,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">194</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -1935,6 +2134,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">195</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1944,6 +2144,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">196</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1953,6 +2154,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">197</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -1962,6 +2164,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">198</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1971,6 +2174,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">199</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -1980,6 +2184,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">200</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -1989,6 +2194,7 @@ background: #F9E40B;
 <td style="text-align: right;">53</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">201</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -1998,6 +2204,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">202</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -2007,6 +2214,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">203</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -2016,6 +2224,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">204</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -2025,6 +2234,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">205</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -2034,6 +2244,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">206</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -2043,6 +2254,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">207</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -2052,6 +2264,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">208</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -2061,6 +2274,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">209</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -2070,6 +2284,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">210</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -2079,6 +2294,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">211</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -2088,6 +2304,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">212</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -2097,6 +2314,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">213</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -2106,6 +2324,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">214</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -2115,6 +2334,7 @@ background: #F9E40B;
 <td style="text-align: right;">52</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">215</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Uncía</td>
@@ -2124,6 +2344,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">216</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Llallagua</td>
@@ -2133,6 +2354,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">217</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -2142,6 +2364,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">218</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -2151,6 +2374,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">219</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Pocoata</td>
@@ -2160,6 +2384,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">220</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -2169,6 +2394,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">221</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -2178,6 +2404,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">222</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -2187,6 +2414,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">223</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -2196,6 +2424,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">224</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -2205,6 +2434,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">225</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">Toro Toro</td>
@@ -2214,6 +2444,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">226</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -2223,6 +2454,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">227</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -2232,6 +2464,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">228</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -2241,6 +2474,7 @@ background: #F9E40B;
 <td style="text-align: right;">51</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">229</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -2250,6 +2484,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">230</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chayanta</td>
@@ -2259,6 +2494,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">231</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -2268,6 +2504,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">232</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Bustillo</td>
 <td style="text-align: left;">Chuquihuta Ayllu Jucumani</td>
@@ -2277,6 +2514,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">233</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Colquechaca</td>
@@ -2286,6 +2524,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">234</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -2295,6 +2534,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">235</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ravelo</td>
@@ -2304,6 +2544,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">236</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">Ocurí</td>
@@ -2313,6 +2554,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">237</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -2322,6 +2564,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">238</td>
 <td style="text-align: right;">39</td>
 <td style="text-align: left;">Chayanta</td>
 <td style="text-align: left;">San Pedro de Macha</td>
@@ -2331,6 +2574,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">239</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Chárcas</td>
 <td style="text-align: left;">San Pedro</td>
@@ -2340,6 +2584,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">240</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Sacaca</td>
@@ -2349,6 +2594,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">241</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">Alonso de Ibáñez</td>
 <td style="text-align: left;">Caripuyo</td>
@@ -2358,6 +2604,7 @@ background: #F9E40B;
 <td style="text-align: right;">50</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">242</td>
 <td style="text-align: right;">38</td>
 <td style="text-align: left;">General Bernardino Bilbao</td>
 <td style="text-align: left;">Acasio</td>
