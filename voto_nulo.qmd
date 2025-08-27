@@ -21,6 +21,7 @@ title-block-banner-color: "#D73225"
 library(readr)
 library(tidyverse)
 library(dplyr)
+library(knitr)
 ```
 
 El archivo refleja los resultados procesados a la siguiente fecha y hora: 24/8/2025, 7:56:19 p. m.
@@ -30,11 +31,11 @@ resultados_bol25 <- read_csv("input/EG2025_20250824_235619_5976286028509320003.c
 ```
 
 ```{r}
-#| echo: false
+#| include: false
 spec(resultados_bol25)
 ```
 
-Filtro las circunscripciones 38 y 39 del norte del departamento de Potosí y calculo el porcentaje del voto nulo en cada mesa. Me quedo con las mesas dónde más o igual a 50 porciento de los electores marcaron "voto nulo", 242 mesas de un total de 639 en esas dos circunscripciones (o en 37% de esas mesas).
+Se filtran las circunscripciones 38 y 39 (norte del departamento de Potosí) y se calcula el porcentaje de voto nulo por mesa. Solo se consideran las mesas donde el voto nulo representa 50% o más de los votos emitidos. En total, 242 mesas (el 37% de las 639 mesas en estas dos circunscripciones) cumplen con este umbral.
 
 ```{r}
 resultados_potosi <- resultados_bol25 %>%
@@ -48,6 +49,9 @@ resultados_potosi <- resultados_bol25 %>%
 Visualizo las localidades de las diferentes mesas de mayor a menor porcentaje de "votos nulos"
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Click to expand code"
+#| echo: true
 votoNulo_mas50_localidad <- resultados_potosi %>% 
   select(
     CodigoCircunscripcionU,
@@ -59,4 +63,9 @@ votoNulo_mas50_localidad <- resultados_potosi %>%
     PorcentajeNulo
   )
   
+```
+
+```{r}
+#| echo: false
+kable(votoNulo_mas50_localidad, caption = "Mesas con un 50% o más de votos nulos (circunscripciones 38 y 39)")
 ```
