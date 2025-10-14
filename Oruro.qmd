@@ -1,0 +1,122 @@
+---
+title: "El voto nulo y diferencia de voto entre Libre/PDC en el departamento de Oruro"
+subtitle: "Primera vuelta de las elecciones generales de Bolivia (17/08/2025)"
+author: 
+  name: "Philippe Decker"
+  email: "decker.philippe@pm.me"
+date: today 
+date-format: "short"
+format: html
+editor: visual
+
+execute:
+  warning: false
+  message: false
+
+title-block-banner: "#F9E40B"
+title-block-banner-color: "#D73225"
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(readr)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+library(DT)
+```
+
+El archivo refleja los resultados procesados a la siguiente fecha y hora: 24/8/2025, 7:56:19 p. m.
+
+```{r}
+resultados_bol25_primeravuelta <- read_csv("input/EG2025_20250824_235619_5976286028509320003.csv")
+```
+
+Se filtra el departamento de Oruro y se calcula el porcentaje de voto nulo en cada mesa.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to expand code"
+#| echo: true
+oruro_voto_nulo <- resultados_bol25_primeravuelta %>%
+  filter(NombreDepartamento == "Oruro") %>%
+  filter(Descripcion == "PRESIDENTE") %>% 
+  mutate(PorcentajeNulo = round((TotalVotoNulo / VotoEmitidoReal) * 100,0)) %>% 
+  #filter(PorcentajeNulo >= 50) %>% 
+  arrange(desc(PorcentajeNulo)) %>% 
+  #mutate(Clasificacion = row_number()) %>% 
+  #select(Clasificacion, everything()) %>% #datatable automatically includes ranking
+  select(
+    #Clasificacion,
+    PorcentajeNulo,
+    CodigoCircunscripcionU,
+    NombreProvincia,
+    NombreMunicipio,
+    NombreLocalidad,
+    NombreRecinto,
+    InscritosHabilitados,
+    VotoEmitidoReal
+  )
+```
+
+```{r}
+datatable(oruro_voto_nulo)  
+```
+
+<br><br>
+
+## Diferencia de voto entre Libre y PDC en cada mesa del departamento de Oruro
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to expand code"
+#| echo: true
+oruro_diflibre_PDC <- resultados_bol25_primeravuelta %>%
+  filter(NombreDepartamento == "Oruro") %>%
+  filter(Descripcion == "PRESIDENTE") %>% 
+  mutate(Diferencia = Voto10 - Voto5) %>% 
+  arrange(desc(Diferencia)) %>% 
+  select(
+    Diferencia,
+    NombreProvincia,
+    NombreMunicipio,
+    NombreLocalidad,
+    NombreRecinto,
+    InscritosHabilitados,
+    CodigoCircunscripcionU
+  )
+```
+
+Un valor positivo en la columna **Diferencia** indica los votos que PDC obtuvo de más respecto a Libre. Asimismo, un valor negativo indica los votos que Libre obtuvo de más respecto a PDC.
+
+```{r}
+datatable(oruro_diflibre_PDC)
+```
+
+### Mesas donde la diferencia es lo más ajustada 
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to expand code"
+#| echo: true
+oruro_diflibre_PDC_ajustado <- resultados_bol25_primeravuelta %>%
+  filter(NombreDepartamento == "Oruro") %>%
+  filter(Descripcion == "PRESIDENTE") %>% 
+  mutate(Diferencia = Voto10 - Voto5) %>% 
+  filter(Diferencia >= -10 & Diferencia <= 10) %>% 
+  arrange(desc(Diferencia)) %>% 
+  select(
+    Diferencia,
+    NombreProvincia,
+    NombreMunicipio,
+    NombreLocalidad,
+    NombreRecinto,
+    InscritosHabilitados,
+    CodigoCircunscripcionU
+  )
+```
+
+En el 8,5 % de las mesas del departamento de Oruro, la diferencia entre Libre y PDC es igual o inferior a 10 votos.
+
+```{r}
+datatable(oruro_diflibre_PDC_ajustado)
+```
