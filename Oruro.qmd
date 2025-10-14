@@ -92,7 +92,7 @@ Un valor positivo en la columna **Diferencia** indica los votos que PDC obtuvo
 datatable(oruro_diflibre_PDC)
 ```
 
-### Mesas donde la diferencia es lo más ajustada 
+### Mesas donde la diferencia es lo más ajustada
 
 ```{r}
 #| code-fold: true
