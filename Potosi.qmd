@@ -73,3 +73,5 @@ votoNulo_mas50_localidad <- resultados_potosi %>%
 #| echo: false
 kable(votoNulo_mas50_localidad, caption = "Mesas con un 50% o más de votos nulos (circunscripciones 38 y 39)")
 ```
+
+[Ver el análisis del departamento de Oruro](Oruro.html)
