@@ -75,3 +75,47 @@ kable(votoNulo_mas50_localidad, caption = "Mesas con un 50% o más de votos nulo
 ```
 
 [Ver el análisis del departamento de Oruro](Oruro.html)
+
+### Mesas en el país dónde 100% de los votos emitidos han sido voto nulos directos
+
+```{r}
+votonulo_pais <- resultados_bol25 %>%
+  filter(Descripcion == "PRESIDENTE") %>% 
+  mutate(PorcentajeNulo = (VotoNuloDirecto / VotoEmitidoReal) * 100,0) %>% 
+  filter(PorcentajeNulo == 100) %>% 
+  arrange(desc(PorcentajeNulo)) %>% 
+  mutate(Clasificacion = row_number()) %>% 
+  select(
+    Clasificacion,
+    CodigoMesa,
+    NombreDepartamento,
+    CodigoCircunscripcionU,
+    NombreProvincia,
+    NombreMunicipio,
+    NombreLocalidad,
+    NombreRecinto,
+    NumeroMesa)
+```
+
+```{r}
+mesa100 <- votonulo_pais$CodigoMesa
+```
+
+### Segunda Vuelta
+
+El archivo refleja los resultados procesados a la siguiente fecha y hora: 27/10/2025, 5:26:43 a. m.
+
+```{r, warning=FALSE, message=FALSE}
+segundavuelta <- read.csv("input/EG2025_20251027_092643_3376657222045601587.csv")
+
+```
+
+```{r}
+segundavuelta_votonulo100primera <- segundavuelta %>% 
+  filter(CodigoMesa %in% mesa100) %>% #me quedo solo con las mesas dónde 100% de los votos eran votos nulos
+    mutate(
+    pct_PDC   = PDC / VotoEmitidoReal * 100,
+    pct_LIBRE = LIBRE / VotoEmitidoReal * 100,
+    pct_Nulo  = VotoNuloDirecto / VotoEmitidoReal * 100) %>% 
+  summarise(across(starts_with("pct_"), \(x) mean(x, na.rm = TRUE)))
+```
